@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 st.title('Analyzing Gaps in the Philippine Education System')
-st.subheader('Group 5 - Cohort 7')
+st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 
 
 def background():

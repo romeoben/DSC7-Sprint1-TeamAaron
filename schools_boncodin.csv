@@ -1,4 +1,4 @@
-index,school.region,school.classification,rooms.standard.academic,rooms.standard.unused,rooms.nonstandard.academic,rooms.nonstandard.unused,teachers.instructor,teachers.mobile,teachers.regular,teachers.sped,Enrolment, school.mooe ,rooms_total,teachers_total,boncodin_mooe
+school.id,school.region,school.classification,rooms.standard.academic,rooms.standard.unused,rooms.nonstandard.academic,rooms.nonstandard.unused,teachers.instructor,teachers.mobile,teachers.regular,teachers.sped,Enrolment, school.mooe ,rooms_total,teachers_total,boncodin_mooe
 100001,Region 01,Elementary,2,0,0,0,0,0,2,0,90,84000,2,2,72000
 100002,Region 01,Elementary,12,0,0,0,0,6,11,0,456,268000,12,17,235200
 100003,Region 01,Elementary,6,0,0,0,0,1,6,0,167,135000,6,7,119400
