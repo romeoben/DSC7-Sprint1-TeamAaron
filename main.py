@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import geopandas as gpd
+import descartes
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
