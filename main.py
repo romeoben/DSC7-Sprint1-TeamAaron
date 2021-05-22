@@ -1,5 +1,6 @@
 import warnings
 import geopandas as gpd
+import descartes
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -14,7 +15,6 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
-mpr = region["MOOE_Diff"].sort_values()
 corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
 
 
@@ -23,10 +23,10 @@ def project():
     st.subheader('Data Science Fellowship Cohort 7 - Group 5')
     st.write("")
     st.markdown(
-        "In this **exploratory data analysis**, we aim to discover the distribution of education resources "
-        "across the Philippines and identify critical regions that would require further support "
-        "from the government. We also assessed the Maintenance and Other Operating Expenses or MOOE "
-        "to identify discrepancies in budget allocation."
+        "In this **exploratory data analysis**, we aim to uncover the distribution of public education resources "
+        "across the Philippines and identify critical deficiencies "
+        "through an assessment of Maintenance and Other Operating Expenses (MOOE) "
+        "allocation in the different regions."
     )
     st.write("")
 
@@ -45,7 +45,7 @@ def project():
         st.write("")
         st.write("")
         st.write("")
-        st.write('This teacher is handling 59 students in Quezon City.')
+        st.write('A teacher handles an overpopulated class of 59 students in this Quezon City public school.')
 
 
 def background():
@@ -155,7 +155,8 @@ def boncodin():
     st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB',
              output_format='auto')
     st.write("Some schools receive less than the Boncodin MOOE, some more")
-
+    
+    mpr = region["MOOE_Diff"].sort_values()
     st.subheader("Regional MOOE Differentials")
     fig = plt.figure(figsize=(10, 6), dpi=200)
     plt.barh(mpr.index, mpr.values)
