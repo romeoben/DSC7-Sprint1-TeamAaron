@@ -16,6 +16,7 @@ prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
 mpr = region["MOOE_Diff"].sort_values()
+corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
 
 def background():
     st.title('Background')
@@ -55,7 +56,8 @@ def data_sources():
 def city_income():
     st.title('City Income vs School Resources')
     st.subheader("Urban areas have more educational resources.")
-    st.write("Provincial Income Level vs Teacher Availability")
+    
+    st.subheader("Provincial Income Level vs Teacher Availability")
     fig = plt.figure(figsize=(8,6))
     plt.scatter(prov["Schools_Income"], prov["Schools_Teachers"])
     #plt.title("Provincial Income Level vs Teacher Availability", fontsize=14)
@@ -64,7 +66,7 @@ def city_income():
     st.pyplot(fig)
     st.write("Correlation coefficient: 0.86")
     
-    st.write("Provincial Income Level vs Room Availability")
+    st.subheader("Provincial Income Level vs Room Availability")
     fig = plt.figure(figsize=(8,6))
     plt.scatter(prov["Schools_Income"], prov["Schools_Rooms"])
     #plt.title("Provincial Income Level vs Room Availability", fontsize=14)
@@ -73,7 +75,7 @@ def city_income():
     st.pyplot(fig)
     st.write("Correlation coefficient: 0.88")
     
-    st.write("Provincial Income Level vs Enrollment")
+    st.subheader("Provincial Income Level vs Enrollment")
     fig = plt.figure(figsize=(8,6))
     plt.scatter(prov["Schools_Income"], prov["Schools_Enrollment"])
     #plt.title("Provincial Income Level vs Enrollment", fontsize=14)
@@ -82,7 +84,7 @@ def city_income():
     st.pyplot(fig)
     st.write("Correlation coefficient: 0.85")
     
-    st.write("Provincial Income Level vs Mean Student-Teacher Ratio")
+    st.subheader("Provincial Income Level vs Mean Student-Teacher Ratio")
     fig = plt.figure(figsize=(8,6))
     plt.scatter(prov["Schools_Income"], prov["Student_Teacher_Ratio"])
     #plt.title("Provincial Income Level vs Mean Student-Teacher Ratio", fontsize=14)
@@ -90,10 +92,8 @@ def city_income():
     plt.xlabel("Income Level (PHP 1*10^11)")
     st.pyplot(fig)
     st.write("Correlation coefficient: 0.42")
-    
-    corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
-    
-    st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
+  
+    st.subheader("City income is positively correlated with total number of enrollees, teachers and classrooms.")
     fig = plt.figure(figsize=(10,8))
     sns.set_theme(style="white")
     mask = np.triu(np.ones_like(corr, dtype=bool))
