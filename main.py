@@ -121,7 +121,7 @@ def city_income():
 def boncodin():
     st.title('Actual MOOE vs Boncodin MOOE')
             
-    st.image("mooe.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+    st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
     st.write("Some schools receive less than the Boncodin MOOE, some more")
     
     mpr = region["MOOE_Diff"].sort_values()
