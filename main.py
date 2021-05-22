@@ -58,6 +58,8 @@ def city_income():
     plt.ylabel("Number of Teachers")
     plt.xlabel("Income Level (PHP 1*10^11)")
     st.pyplot(fig)
+    st.write("Correlation coefficient: 0.86")
+    
     st.write("Provincial Income Level vs Room Availability")
     fig = plt.figure(figsize=(8,6))
     plt.scatter(prov["Schools_Income"], prov["Schools_Rooms"])
@@ -65,9 +67,36 @@ def city_income():
     plt.ylabel("Number of Rooms Available")
     plt.xlabel("Income Level (PHP 1*10^11)")
     st.pyplot(fig)
-    st.write("Exploratory Data Analysis")
-    st.write("Clustering")
-    st.write("Visualization")
+    st.write("Correlation coefficient: 0.88")
+    
+    st.write("Provincial Income Level vs Enrollment")
+    fig = plt.figure(figsize=(8,6))
+    plt.scatter(prov["Schools_Income"], prov["Schools_Enrollment"])
+    #plt.title("Provincial Income Level vs Enrollment", fontsize=14)
+    plt.ylabel("Enrolled Students")
+    plt.xlabel("Income Level (PHP 1*10^11)")
+    st.pyplot(fig)
+    st.write("Correlation coefficient: 0.85")
+    
+    st.write("Provincial Income Level vs Mean Student-Teacher Ratio")
+    fig = plt.figure(figsize=(8,6))
+    plt.scatter(prov["Schools_Income"], prov["Student_Teacher_Ratio"])
+    #plt.title("Provincial Income Level vs Mean Student-Teacher Ratio", fontsize=14)
+    plt.ylabel("Student-Teacher Ratio")
+    plt.xlabel("Income Level (PHP 1*10^11)")
+    st.pyplot(fig)
+    st.write("Correlation coefficient: 0.42")
+    
+    corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
+    
+    st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
+    fig = plt.figure(figsize=(10,8))
+    sns.set_theme(style="white")
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+    #cmap = sns.light_palette("blue", as_cmap=True)
+    sns.heatmap(corr, mask=mask, cmap="twilight", center=1, annot=True)
+    st.pyplot(fig)
+
 
 def conclusion():
     st.title('Conclusion and Recommendations')
