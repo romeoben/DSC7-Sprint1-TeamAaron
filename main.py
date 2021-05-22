@@ -10,6 +10,7 @@ warnings.filterwarnings('ignore')
 st.title('Analyzing Gaps in the Philippine Education System')
 st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 
+prov = pd.read_csv("schools_prov.csv")
 
 def background():
     st.title('Background')
@@ -56,8 +57,10 @@ def conclusion():
     st.write("Are the perceived discrepancies justified for resource needs?")
     st.write("Not necessarily. Some regions have lower differentials but require more resources (CAR, Region 2).")
     st.subheader("What can we do?")
-
-
+    st.write("We recommend a reevaluation of the Boncodin Formula, to incorporate certain factors important to the context, such as:")
+    st.write("Travel time and cost from school to Division Office)")
+    st.write("Poverty incidence")
+    st.write("Vulnerability to natural and human-induced hazards")
 
 
 
@@ -78,8 +81,11 @@ if selection == "Background":
 elif selection == "Points of Investigation":
     point_of_investigation()
 
+elif selection == "What is MOOE?":
+    what_is_mooe()
+
 elif selection == "Data Sources and Methodology":
     data_sources()
 
 elif selection == "Conclusion and Recommendations":
-    Conclusion()
+    conclusion()
