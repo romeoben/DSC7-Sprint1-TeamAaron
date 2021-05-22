@@ -97,6 +97,22 @@ def city_income():
     sns.heatmap(corr, mask=mask, cmap="twilight", center=1, annot=True)
     st.pyplot(fig)
 
+def boncodin():
+    st.title('Actual MOOE vs Boncodin MOOE')
+    #st.subheader("Some schools receive less than the Boncodin MOOE, some more")
+    
+    st.write("Regional MOOE Differentials")
+    st.image("mooe.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+    
+    mpr = region["MOOE_Diff"].sort_values()
+
+    fig = plt.figure(figsize=(10,6), dpi=200) 
+    plt.barh(mpr.index, mpr.values) 
+    #plt.title("Regional MOOE Differentials", fontsize = 16)
+    plt.xlabel("MOOE Differential", fontsize=12)
+    plt.xticks(range(0,250000000,25000000))
+    st.pyplot(fig)
+    st.write("Some schools receive less than the Boncodin MOOE, some more")
 
 def conclusion():
     st.title('Conclusion and Recommendations')
@@ -122,6 +138,7 @@ list_of_pages = [
     "What is MOOE?",
     "Data Sources and Methodology",
     "City Income vs School Resources",
+    "Actual vs Boncodin MOOE",
     "Conclusion and Recommendations",
 ]
 
@@ -142,6 +159,9 @@ elif selection == "Data Sources and Methodology":
 
 elif selection == "City Income vs School Resources":
     city_income()
+
+elif selection == "Actual vs Boncodin MOOE":
+    boncodin()
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
