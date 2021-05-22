@@ -11,13 +11,13 @@ st.title('Analyzing Gaps in the Philippine Education System')
 st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 
 prov = pd.read_csv("schools_prov.csv")
+region = pd.read_csv("schools_region.csv")
 
 def background():
     st.title('Background')
     st.write(
         "UN SDG4 aims to “ensure inclusive and equitable quality education\n"
         "and promote lifelong learning opportunities for all.”")
-
 
 def point_of_investigation():
     st.title('Points of Investigation')
@@ -37,14 +37,32 @@ def what_is_mooe():
     
 def data_sources():
     st.title('Data Sources and Methodology')
-    st.write("2015 DepEd Enhanced Basic Education Information System (EBEIS)")
+    st.subheader("2015 DepEd Enhanced Basic Education Information System (EBEIS) Data")
     st.write("1. Schools Masterlist Data")
     st.write("2. Rooms Data")
     st.write("3. Teachers Data")
     st.write("4. MOOE Data")
     st.subheader('Methodology')
-    st.write("This is the methodology.")
+    st.write("Data Cleaning")
+    st.write("Exploratory Data Analysis")
+    st.write("Clustering")
+    st.write("Visualization")
 
+def city_income():
+    st.title('City Income vs School Resources')
+    st.subheader("Urban areas have more educational resources.")
+    #st.write("1. Schools Masterlist Data")
+    plt.figure(figsize=(8,6))
+    plt.scatter(prov["Schools_Income"], prov["Schools_Teachers"])
+    plt.title("Provincial Income Level vs Teacher Availability", fontsize=14)
+    plt.ylabel("Number of Teachers")
+    plt.xlabel("Income Level (PHP 1*10^11)")
+    plt.show()
+    st.subheader('Methodology')
+    st.write("Data Cleaning")
+    st.write("Exploratory Data Analysis")
+    st.write("Clustering")
+    st.write("Visualization")
 
 def conclusion():
     st.title('Conclusion and Recommendations')
@@ -69,6 +87,7 @@ list_of_pages = [
     "Points of Investigation",
     "What is MOOE?",
     "Data Sources and Methodology",
+    "City Income vs School Resources",
     "Conclusion and Recommendations",
 ]
 
@@ -86,6 +105,9 @@ elif selection == "What is MOOE?":
 
 elif selection == "Data Sources and Methodology":
     data_sources()
+
+elif selection == "City Income vs School Resources":
+    city_income()
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
