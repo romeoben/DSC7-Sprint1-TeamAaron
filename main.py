@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+import cluster
 warnings.filterwarnings('ignore')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -15,8 +16,11 @@ st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
+rooms_schools4 = pd.read_csv("Nilly_data.csv")
 mpr = region["MOOE_Diff"].sort_values()
 corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
+region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
+region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
 
 def background():
     st.title('Background')
@@ -37,8 +41,7 @@ def what_is_mooe():
     st.write("For schools, MOOE supports learning programs and helps maintain a safe and healthy learning environment. ")
     st.subheader("How is it computed?")
     st.write("Boncodin Formula")
-    st.write("School MOOE = α + (β x TC) + (γ x TT) + (δ x TE)")
-    st.write("Where α, β, γ, δ = constants dependent on school type (elementary or secondary)\n TC = total classrooms\n TT = total teachers\n TE = total enrollees")
+    
     
 def data_sources():
     st.title('Data Sources and Methodology')
@@ -151,7 +154,9 @@ list_of_pages = [
     "What is MOOE?",
     "Data Sources and Methodology",
     "City Income vs School Resources",
+    "Gaps in School Resources",
     "Actual vs Boncodin MOOE",
+    "Clustering",
     "Conclusion and Recommendations",
 ]
 
@@ -173,8 +178,14 @@ elif selection == "Data Sources and Methodology":
 elif selection == "City Income vs School Resources":
     city_income()
 
+elif selection == "Gaps in School Resources":
+    gaps()
+
 elif selection == "Actual vs Boncodin MOOE":
     boncodin()
+
+elif selection == "Clustering":
+    clustering()
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
