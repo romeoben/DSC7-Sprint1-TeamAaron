@@ -12,6 +12,27 @@ st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
+shapefile = gpd.read_file('./Regions/Regions.shp')
+
+shapefile.replace({'REGION' : {'Autonomous Region of Muslim Mindanao (ARMM)': 'ARMM', 
+                               'Bicol Region (Region V)' : 'Region 05', 
+                               'CALABARZON (Region IV-A)' : 'Region 04A', 
+                               'Cagayan Valley (Region II)' : 'Region 02', 
+                               'Caraga (Region XIII)' : 'CARAGA', 
+                               'Central Luzon (Region III)' : 'Region 03', 
+                               'Central Visayas (Region VII)' : 'Region 07', 
+                               'Cordillera Administrative Region (CAR)' : 'CAR', 
+                               'Davao Region (Region XI)' : 'Region 11', 
+                               'Eastern Visayas (Region VIII)' : 'Region 08', 
+                               'Ilocos Region (Region I)' : 'Region 01', 
+                               'MIMAROPA (Region IV-B)' : 'Region 04B', 
+                               'Metropolitan Manila' : 'NCR', 
+                               'Northern Mindanao (Region X)' : 'Region 10', 
+                               'SOCCSKSARGEN (Region XII)' : 'Region 12', 
+                               'Western Visayas (Region VI)' : 'Region 06', 
+                               'Zamboanga Peninsula (Region IX)' : 'Region 09'}}, inplace=True)
+
+merged_data = pd.merge(shapefile, mpr, left_on="REGION", right_on="school.region", how="outer")
 
 def background():
     st.title('Background')
@@ -99,20 +120,32 @@ def city_income():
 
 def boncodin():
     st.title('Actual MOOE vs Boncodin MOOE')
-    #st.subheader("Some schools receive less than the Boncodin MOOE, some more")
-    
-    st.write("Regional MOOE Differentials")
+            
     st.image("mooe.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+    st.write("Some schools receive less than the Boncodin MOOE, some more")
     
     mpr = region["MOOE_Diff"].sort_values()
-
+    
+    st.write("Regional MOOE Differentials")
     fig = plt.figure(figsize=(10,6), dpi=200) 
     plt.barh(mpr.index, mpr.values) 
     #plt.title("Regional MOOE Differentials", fontsize = 16)
     plt.xlabel("MOOE Differential", fontsize=12)
     plt.xticks(range(0,250000000,25000000))
     st.pyplot(fig)
-    st.write("Some schools receive less than the Boncodin MOOE, some more")
+    st.write("NCR, Region 3, 4-A, 6, 5, 7 have higher MOOE differentials")
+    st.write("CAR, CARAGA, Region 4-B, 9, 2 have lower MOOE differentials")
+    
+    variable = 'MOOE_Diff'
+    
+    st.write("Regions near the capital have higher MOOE differentials")
+    vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
+    fig, ax = plt.subplots(1, figsize=(15, 10))
+    merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
+    sm = plt.cm.ScalarMappable(cmap='PuBu', norm=plt.Normalize(vmin=vmin, vmax=vmax))
+    cbar = fig.colorbar(sm)
+    st.pyplot()
+    
 
 def conclusion():
     st.title('Conclusion and Recommendations')
