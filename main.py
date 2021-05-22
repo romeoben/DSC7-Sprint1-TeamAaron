@@ -13,6 +13,7 @@ st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 shapefile = gpd.read_file('./Regions/Regions.shp')
+mpr = region["MOOE_Diff"].sort_values()
 
 shapefile.replace({'REGION' : {'Autonomous Region of Muslim Mindanao (ARMM)': 'ARMM', 
                                'Bicol Region (Region V)' : 'Region 05', 
@@ -123,9 +124,7 @@ def boncodin():
             
     st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
     st.write("Some schools receive less than the Boncodin MOOE, some more")
-    
-    mpr = region["MOOE_Diff"].sort_values()
-    
+ 
     st.write("Regional MOOE Differentials")
     fig = plt.figure(figsize=(10,6), dpi=200) 
     plt.barh(mpr.index, mpr.values) 
