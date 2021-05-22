@@ -12,28 +12,8 @@ st.subheader('Data Science Fellowship Cohort 7 - Group 5')
 
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
-shapefile = gpd.read_file('./Regions/Regions.shp')
+merged_data = gpd.read_file('./merged_data/merged_data.shp')
 mpr = region["MOOE_Diff"].sort_values()
-
-shapefile.replace({'REGION' : {'Autonomous Region of Muslim Mindanao (ARMM)': 'ARMM', 
-                               'Bicol Region (Region V)' : 'Region 05', 
-                               'CALABARZON (Region IV-A)' : 'Region 04A', 
-                               'Cagayan Valley (Region II)' : 'Region 02', 
-                               'Caraga (Region XIII)' : 'CARAGA', 
-                               'Central Luzon (Region III)' : 'Region 03', 
-                               'Central Visayas (Region VII)' : 'Region 07', 
-                               'Cordillera Administrative Region (CAR)' : 'CAR', 
-                               'Davao Region (Region XI)' : 'Region 11', 
-                               'Eastern Visayas (Region VIII)' : 'Region 08', 
-                               'Ilocos Region (Region I)' : 'Region 01', 
-                               'MIMAROPA (Region IV-B)' : 'Region 04B', 
-                               'Metropolitan Manila' : 'NCR', 
-                               'Northern Mindanao (Region X)' : 'Region 10', 
-                               'SOCCSKSARGEN (Region XII)' : 'Region 12', 
-                               'Western Visayas (Region VI)' : 'Region 06', 
-                               'Zamboanga Peninsula (Region IX)' : 'Region 09'}}, inplace=True)
-
-merged_data = pd.merge(shapefile, mpr, left_on="REGION", right_on=mpr.index, how="outer")
 
 def background():
     st.title('Background')
