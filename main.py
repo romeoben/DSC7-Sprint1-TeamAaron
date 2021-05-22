@@ -1,5 +1,4 @@
 import warnings
-
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,6 +6,7 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 from PIL import Image
+import cluster
 
 warnings.filterwarnings('ignore')
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -14,7 +14,11 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
+rooms_schools4 = pd.read_csv("Nilly_data.csv")
 mpr = region["MOOE_Diff"].sort_values()
+corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
+region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
+region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
 
 
 def project():
@@ -82,7 +86,6 @@ def what_is_mooe():
     mooe_computation = Image.open("mooe_computation.png")
     st.image(mooe_computation)
 
-
 def data_sources():
     st.title('Data Sources')
     data_sources = Image.open("data_sources.png")
@@ -98,8 +101,10 @@ def methodology():
 def city_income():
     st.title('City Income vs School Resources')
     st.subheader("Urban areas have more educational resources.")
+
     st.write("Provincial Income Level vs Teacher Availability")
     fig = plt.figure(figsize=(8, 6))
+
     plt.scatter(prov["Schools_Income"], prov["Schools_Teachers"])
     # plt.title("Provincial Income Level vs Teacher Availability", fontsize=14)
     plt.ylabel("Number of Teachers")
@@ -109,6 +114,7 @@ def city_income():
 
     st.write("Provincial Income Level vs Room Availability")
     fig = plt.figure(figsize=(8, 6))
+
     plt.scatter(prov["Schools_Income"], prov["Schools_Rooms"])
     # plt.title("Provincial Income Level vs Room Availability", fontsize=14)
     plt.ylabel("Number of Rooms Available")
@@ -118,6 +124,7 @@ def city_income():
 
     st.write("Provincial Income Level vs Enrollment")
     fig = plt.figure(figsize=(8, 6))
+
     plt.scatter(prov["Schools_Income"], prov["Schools_Enrollment"])
     # plt.title("Provincial Income Level vs Enrollment", fontsize=14)
     plt.ylabel("Enrolled Students")
@@ -127,18 +134,17 @@ def city_income():
 
     st.write("Provincial Income Level vs Mean Student-Teacher Ratio")
     fig = plt.figure(figsize=(8, 6))
+
     plt.scatter(prov["Schools_Income"], prov["Student_Teacher_Ratio"])
     # plt.title("Provincial Income Level vs Mean Student-Teacher Ratio", fontsize=14)
     plt.ylabel("Student-Teacher Ratio")
     plt.xlabel("Income Level (PHP 1*10^11)")
     st.pyplot(fig)
     st.write("Correlation coefficient: 0.42")
-
-    corr = prov[
-        ['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
-
+    
     st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
     fig = plt.figure(figsize=(10, 8))
+
     sns.set_theme(style="white")
     mask = np.triu(np.ones_like(corr, dtype=bool))
     # cmap = sns.light_palette("blue", as_cmap=True)
@@ -199,7 +205,9 @@ list_of_pages = [
     "Data Sources",
     "Methodology",
     "City Income vs School Resources",
+    "Gaps in School Resources",
     "Actual vs Boncodin MOOE",
+    "Clustering",
     "Conclusion and Recommendations",
 ]
 
@@ -227,8 +235,14 @@ elif selection == "Methodology":
 elif selection == "City Income vs School Resources":
     city_income()
 
+elif selection == "Gaps in School Resources":
+    gaps()
+
 elif selection == "Actual vs Boncodin MOOE":
     boncodin()
+
+elif selection == "Clustering":
+    clustering()
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
