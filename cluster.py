@@ -19,6 +19,8 @@ def gaps():
     st.write("In terms of educational resources")
     
     st.subheader("REGIONS REQUIRING MORE ROOMS")
+    region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
+    region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
     region_rooms_ratio = region_rooms_ratio.sort_values()
     fig = plt.figure(figsize=(10,6)) 
     plt.barh(region_rooms_ratio.index, region_rooms_ratio.values,height=0.8,left=0,align='edge') 

@@ -17,8 +17,6 @@ merged_data = gpd.read_file('./merged_data/merged_data.shp')
 rooms_schools4 = pd.read_csv("Nilly_data.csv")
 mpr = region["MOOE_Diff"].sort_values()
 corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
-region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
-region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
 
 
 def project():
