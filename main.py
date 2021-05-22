@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 warnings.filterwarnings('ignore')
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title('Analyzing Gaps in the Philippine Education System')
 st.subheader('Data Science Fellowship Cohort 7 - Group 5')
@@ -102,23 +103,22 @@ def city_income():
 
 def boncodin():
     st.title('Actual MOOE vs Boncodin MOOE')
-            
+    
     st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
     st.write("Some schools receive less than the Boncodin MOOE, some more")
  
-    st.write("Regional MOOE Differentials")
+    st.subheader("Regional MOOE Differentials")
     fig = plt.figure(figsize=(10,6), dpi=200) 
     plt.barh(mpr.index, mpr.values) 
     #plt.title("Regional MOOE Differentials", fontsize = 16)
     plt.xlabel("MOOE Differential", fontsize=12)
     plt.xticks(range(0,250000000,25000000))
     st.pyplot(fig)
-    st.write("NCR, Region 3, 4-A, 6, 5, 7 have higher MOOE differentials")
-    st.write("CAR, CARAGA, Region 4-B, 9, 2 have lower MOOE differentials")
+    st.write("NCR, Region 3, 4-A, 6, 5, 7 have higher MOOE differentials.")
+    st.write("CAR, CARAGA, Region 4-B, 9, 2 have lower MOOE differentials.")
     
     variable = 'MOOE_Diff'
     
-    st.write("Regions near the capital have higher MOOE differentials")
     vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
     fig, ax = plt.subplots(1, figsize=(15, 10))
     merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
