@@ -33,7 +33,7 @@ shapefile.replace({'REGION' : {'Autonomous Region of Muslim Mindanao (ARMM)': 'A
                                'Western Visayas (Region VI)' : 'Region 06', 
                                'Zamboanga Peninsula (Region IX)' : 'Region 09'}}, inplace=True)
 
-merged_data = pd.merge(shapefile, mpr, left_on="REGION", right_on="school.region", how="outer")
+merged_data = pd.merge(shapefile, mpr, left_on="REGION", right_on=mpr.index, how="outer")
 
 def background():
     st.title('Background')
