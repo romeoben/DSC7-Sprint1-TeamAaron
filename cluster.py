@@ -12,7 +12,7 @@ from math import pi
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import MinMaxScaler
 
-
+rooms_schools4 = pd.read_csv("Nilly_data.csv")
 
 def gaps():
     st.title('ACROSS THE COUNTRY, CAN WE IDENTIFY REGIONS WITH GAPS?')

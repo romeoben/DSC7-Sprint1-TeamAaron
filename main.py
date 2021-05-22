@@ -14,7 +14,6 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 prov = pd.read_csv("schools_prov.csv")
 region = pd.read_csv("schools_region.csv")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
-rooms_schools4 = pd.read_csv("Nilly_data.csv")
 mpr = region["MOOE_Diff"].sort_values()
 corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
 
