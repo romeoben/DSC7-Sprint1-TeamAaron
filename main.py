@@ -236,13 +236,13 @@ elif selection == "City Income vs School Resources":
     city_income()
 
 elif selection == "Gaps in School Resources":
-    gaps()
+    cluster.gaps()
 
 elif selection == "Actual vs Boncodin MOOE":
     boncodin()
 
 elif selection == "Clustering":
-    clustering()
+    cluster.clustering()
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
