@@ -105,38 +105,8 @@ def clustering():
     df_minmax['Cluster_Labels'] = cluster_labels
     df_clusters = df_minmax.set_index("Cluster_Labels")
     df_clusters = df_clusters.groupby("Cluster_Labels").mean().reset_index()
-    # df_clusters
     
-    my_dpi=100
-    fig = plt.figure(figsize=(1000/my_dpi, 1000/my_dpi), dpi=my_dpi)
-    plt.subplots_adjust(hspace=0.5)
-
-     #Create a color palette:
-    my_palette = plt.cm.get_cmap("Set2", len(df_clusters.index))
-
-    for row in range(0, len(df_clusters.index)):
-        make_spider(row=row, 
-                    title='Segment '+(df_clusters['Cluster_Labels'][row]).astype(str), 
-                    color=my_palette(row))
-    
-    st.pyplot(fig)
-    
-    st.subheader('SEGMENT 0')
-    st.write("low room utilization (0)")
-    st.write("low student teacher ratio (0)")
-    st.write("low MOOE diff (-0.25)")
-    
-    st.subheader('SEGMENT 1')
-    st.write("high room utilization (0.75)")
-    st.write("medium student teacher ratio (0.25)")
-    st.write("high MOOE diff (0.75)")
-    
-    st.subheader('SEGMENT 2')
-    st.write("low room utilization (0.25)")
-    st.write("high student teacher ratio (0.5)")
-    st.write("low MOOE diff (-0.25)")
-    
-def make_spider(row, title, color):
+    def make_spider(row, title, color):
         # number of variable
         categories=list(df_clusters)[1:]
         N = len(categories)
@@ -170,3 +140,32 @@ def make_spider(row, title, color):
 
         # Add a title
         plt.title(title, size=14, color=color, y=1.1)
+    
+    my_dpi=100
+    fig = plt.figure(figsize=(1000/my_dpi, 1000/my_dpi), dpi=my_dpi)
+    plt.subplots_adjust(hspace=0.5)
+
+    #Create a color palette:
+    my_palette = plt.cm.get_cmap("Set2", len(df_clusters.index))
+
+    for row in range(0, len(df_clusters.index)):
+        make_spider(row=row, 
+                    title='Segment '+(df_clusters['Cluster_Labels'][row]).astype(str), 
+                    color=my_palette(row))
+    
+    st.pyplot(fig)
+    
+    st.subheader('SEGMENT 0')
+    st.write("low room utilization (0)")
+    st.write("low student teacher ratio (0)")
+    st.write("low MOOE diff (-0.25)")
+    
+    st.subheader('SEGMENT 1')
+    st.write("high room utilization (0.75)")
+    st.write("medium student teacher ratio (0.25)")
+    st.write("high MOOE diff (0.75)")
+    
+    st.subheader('SEGMENT 2')
+    st.write("low room utilization (0.25)")
+    st.write("high student teacher ratio (0.5)")
+    st.write("low MOOE diff (-0.25)")    
