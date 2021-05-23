@@ -8,12 +8,12 @@ import seaborn as sns
 import streamlit as st
 from PIL import Image
 import cluster
-
+st.set_page_config(layout="wide")
 warnings.filterwarnings('ignore')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 prov = pd.read_csv("schools_prov.csv")
-region = pd.read_csv("schools_region.csv")
+region = pd.read_csv("schools_region.csv", index_col="school.region")
 merged_data = gpd.read_file('./merged_data/merged_data.shp')
 corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Teacher_Ratio', 'Schools_Enrollment']].corr()
 
@@ -104,6 +104,7 @@ def city_income():
         fig = plt.figure(figsize=(10, 8))
 
         sns.set_theme(style="white")
+        sns.set_context(context="paper",font_scale=1.7)
         mask = np.triu(np.ones_like(corr, dtype=bool))
         # cmap = sns.light_palette("blue", as_cmap=True)
         sns.heatmap(corr, mask=mask, cmap="twilight", center=1, annot=True)
@@ -154,30 +155,34 @@ def city_income():
 
 def boncodin():
     st.title('Actual MOOE vs Boncodin MOOE')
-
-    st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB',
-             output_format='auto')
-    st.write("Some schools receive less than the Boncodin MOOE, some more")
+    col1, col2, col3 = st.beta_columns(3)
+    with col1:
+        st.subheader("At a Glance")
+        st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB',
+                 output_format='auto')
+        st.write("**Some schools receive less than the Boncodin MOOE, some more.**")
     
-    mpr = region["MOOE_Diff"].sort_values()
-    st.subheader("Regional MOOE Differentials")
-    fig = plt.figure(figsize=(10, 6), dpi=200)
-    plt.barh(mpr.index, mpr.values)
-    # plt.title("Regional MOOE Differentials", fontsize = 16)
-    plt.xlabel("MOOE Differential", fontsize=12)
-    plt.xticks(range(0, 250000000, 25000000))
-    st.pyplot(fig)
-    st.write("NCR, Region 3, 4-A, 6, 5, 7 have higher MOOE differentials.")
-    st.write("CAR, CARAGA, Region 4-B, 9, 2 have lower MOOE differentials.")
+    with col2:
+        st.subheader("Regional MOOE Differentials")
+        mpr = region["MOOE_Diff"].sort_values()
+        fig = plt.figure(figsize=(10, 6), dpi=200)
+        plt.barh(mpr.index, mpr.values)
+        # plt.title("Regional MOOE Differentials", fontsize = 16)
+        plt.xlabel("MOOE Differential", fontsize=12)
+        plt.xticks(range(0, 250000000, 25000000))
+        st.pyplot(fig)
+        st.write("NCR, Region 3, 4-A, 6, 5, 7 have **higher** MOOE differentials.")
+        st.write("CAR, CARAGA, Region 4-B, 9, 2 have **lower** MOOE differentials.")
+    
+    with col3:
+        variable = 'MOOE_Diff'
 
-    variable = 'MOOE_Diff'
-
-    vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
-    fig, ax = plt.subplots(1, figsize=(15, 10))
-    merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
-    sm = plt.cm.ScalarMappable(cmap='PuBu', norm=plt.Normalize(vmin=vmin, vmax=vmax))
-    cbar = fig.colorbar(sm)
-    st.pyplot()
+        vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
+        fig, ax = plt.subplots(1, figsize=(15, 10))
+        merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
+        sm = plt.cm.ScalarMappable(cmap='PuBu', norm=plt.Normalize(vmin=vmin, vmax=vmax))
+        cbar = fig.colorbar(sm)
+        st.pyplot()
 
 
 def conclusion():

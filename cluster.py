@@ -15,31 +15,38 @@ from sklearn.preprocessing import MinMaxScaler
 rooms_schools4 = pd.read_csv("Nilly_data.csv")
 
 def gaps():
-    st.title('ACROSS THE COUNTRY, CAN WE IDENTIFY REGIONS WITH GAPS?')
-    st.write("In terms of educational resources")
+    st.title('Across the country, can we identify regions with deficiencies in educational resources?')
     
-    st.subheader("REGIONS REQUIRING MORE ROOMS")
-    region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
-    region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
-    region_rooms_ratio = region_rooms_ratio.sort_values()
-    fig = plt.figure(figsize=(10,6)) 
-    plt.barh(region_rooms_ratio.index, region_rooms_ratio.values,height=0.8,left=0,align='edge') 
-    plt.title("Region: Room Utilization.", fontsize=16)
-    plt.xlabel("number of students per one room", fontsize=12)
-    st.pyplot(fig)
-    st.write("According to the World Bank [1], less students per classroom is associated with better student performance.")
-    st.write("Additionally, House Bill 473 [2] states that the standard class size is 35.")
+    option = st.sidebar.selectbox(
+        'Select a Resource:',
+        ['Room Utilization', 'Student-Teacher Ratio'])
+        
+    if option == "Room Utilization":
     
-    st.subheader("REGIONS REQUIRING MORE TEACHERS")
-    region_teacher_student_ratio = rooms_schools4.groupby("school.region")['student_teacher'].mean()
-    region_teacher_student_ratio = region_teacher_student_ratio.sort_values()
-    fig = plt.figure(figsize=(10,6)) 
-    plt.barh(region_teacher_student_ratio.index, region_teacher_student_ratio.values,height=0.8,left=0,align='edge') 
-    plt.title("Region: Student Teacher ratio", fontsize=16)
-    plt.xlabel("number of students per one teacher", fontsize=12)
-    st.pyplot(fig)
-    st.write("In 2018, DepEd [3] set parameters for Student-Teacher ratios: for Grades 1-2, it is 1:30, Grade 3-4, 1:35, and Grades 5-10, 1:40.")
-    st.write("This brings us to an average of 1:35 - which is the ideal.")
+        st.subheader("Regional Room Utilization")
+        region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
+        region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
+        region_rooms_ratio = region_rooms_ratio.sort_values()
+        fig = plt.figure(figsize=(10,6)) 
+        plt.barh(region_rooms_ratio.index, region_rooms_ratio.values,height=0.8,left=0,align='edge') 
+        plt.axvline(x=35, c="orange",ls="--")
+        #plt.title("Regional Room Utilization.", fontsize=16)
+        plt.xlabel("Students per room", fontsize=12)
+        st.pyplot(fig)
+        st.write("According to the World Bank, less students per classroom is associated with better student performance.")
+        st.write("Additionally, House Bill 473 states that the **standard class size is 35**.")
+    
+    elif option == "Student-Teacher Ratio":      
+        st.subheader("Regional Student-Teacher Ratio")
+        region_teacher_student_ratio = rooms_schools4.groupby("school.region")['student_teacher'].mean()
+        region_teacher_student_ratio = region_teacher_student_ratio.sort_values()
+        fig = plt.figure(figsize=(10,6)) 
+        plt.barh(region_teacher_student_ratio.index, region_teacher_student_ratio.values,height=0.8,left=0,align='edge')
+        plt.axvline(x=35, c="orange",ls="--")
+        #plt.title("Region: Student Teacher ratio", fontsize=16)
+        plt.xlabel("Students per teacher", fontsize=12)
+        st.pyplot(fig)
+        st.write("In 2018, DepEd set parameters the following parameters for Student-Teacher ratios: for Grades 1-2, it is 1:30, Grade 3-4, 1:35, and Grades 5-10, 1:40. This brings us to an average of **1:35** - which is the ideal.")
     
    
 def clustering():
