@@ -48,16 +48,14 @@ def background():
         "and promote lifelong learning opportunities for all.*")
 
     st.write(
-        "In the context of the Philippines, has this goal been properly translated into **reality**?"
+        "In the context of the Philippines, has this goal been properly translated into **reality**?", "",
+        "To investigate this, we asked three critical questions: "
     )
 
     sdg4_image = Image.open('sdg4.jpg')
     
     col1, col2 = st.beta_columns(2)
     with col1:
-        st.markdown(
-            "To investigate this, we asked three critical questions: "
-        )
         st.markdown(
             "**1. How are education resources distributed across the country?**"
         )
