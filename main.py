@@ -31,8 +31,6 @@ def project():
             caption='A teacher with her class of 59 students in a Quezon City public school. Source: The Guardian'
         )
     with col2:
-        st.write("")
-        st.write("")
         st.markdown(
             "In this **exploratory data analysis**, we aim to uncover the distribution of public education resources "
             "across the Philippines and identify critical deficiencies "
@@ -55,18 +53,23 @@ def background():
 
     sdg4_image = Image.open('sdg4.jpg')
     
-    col1, col2 = st.beta_columns([2, 1])
+    col1, col2 = st.beta_columns(2)
     with col1:
-        st.image(sdg4_image, caption='Source: Think Sustainability')
-    with col2:
         st.markdown(
             "To investigate this, we asked three critical questions: "
         )
         st.markdown(
-            "**1. How are education resources distributed across the country?**\n"
-            "**2. Are there any schools, regions, or areas with resource deficiencies?**\n"
+            "**1. How are education resources distributed across the country?**"
+        )
+        st.markdown(    
+            "**2. Are there any schools, regions, or areas with resource deficiencies?**"
+        )
+        st.markdown(    
             "**3. Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?**"
         )
+    with col2:
+        st.image(sdg4_image, caption='Source: Think Sustainability')
+        
 
 
 def what_is_mooe():
