@@ -95,12 +95,12 @@ def methodology():
 
 def city_income():
     st.title('City Income vs School Resources')
-    st.subheader("Urban areas have more educational resources.")
+    st.subheader("Schools in cities with higher incomes have more educational resources.")
     st.write("")
     
     col1, col2 = st.beta_columns(2)
     with col1:
-        st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
+        st.write("City income was found to be positively correlated with total number of enrollees, teachers and classrooms.")
         fig = plt.figure(figsize=(10, 8))
 
         sns.set_theme(style="white")
