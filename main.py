@@ -34,11 +34,9 @@ def project():
         st.markdown(
             "In this **exploratory data analysis**, we aim to uncover the distribution of public education resources "
             "across the Philippines and identify critical deficiencies "
-            "through an assessment of Maintenance and Other Operating Expenses (MOOE) "
+            "through an assessment of **Maintenance and Other Operating Expenses (MOOE)** "
             "allocation in the different regions."
         )
-        st.write("")
-        st.write("")
 
 
 def background():
@@ -48,13 +46,13 @@ def background():
         "and promote lifelong learning opportunities for all.*")
 
     st.write(
-        "In the context of the Philippines, has this goal been properly translated into **reality**?", "",
+        "In the context of the Philippines, has this goal been properly translated into **reality**? \n"
         "To investigate this, we asked three critical questions: "
     )
 
     sdg4_image = Image.open('sdg4.jpg')
     
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.beta_columns([1, 2])
     with col1:
         st.markdown(
             "**1. How are education resources distributed across the country?**"
@@ -98,55 +96,60 @@ def methodology():
 def city_income():
     st.title('City Income vs School Resources')
     st.subheader("Urban areas have more educational resources.")
-
-    st.write("Provincial Income Level vs Teacher Availability")
-    fig = plt.figure(figsize=(8, 6))
-
-    plt.scatter(prov["Schools_Income"], prov["Schools_Teachers"])
-    # plt.title("Provincial Income Level vs Teacher Availability", fontsize=14)
-    plt.ylabel("Number of Teachers")
-    plt.xlabel("Income Level (PHP 1*10^11)")
-    st.pyplot(fig)
-    st.write("Correlation coefficient: 0.86")
-
-    st.write("Provincial Income Level vs Room Availability")
-    fig = plt.figure(figsize=(8, 6))
-
-    plt.scatter(prov["Schools_Income"], prov["Schools_Rooms"])
-    # plt.title("Provincial Income Level vs Room Availability", fontsize=14)
-    plt.ylabel("Number of Rooms Available")
-    plt.xlabel("Income Level (PHP 1*10^11)")
-    st.pyplot(fig)
-    st.write("Correlation coefficient: 0.88")
-
-    st.write("Provincial Income Level vs Enrollment")
-    fig = plt.figure(figsize=(8, 6))
-
-    plt.scatter(prov["Schools_Income"], prov["Schools_Enrollment"])
-    # plt.title("Provincial Income Level vs Enrollment", fontsize=14)
-    plt.ylabel("Enrolled Students")
-    plt.xlabel("Income Level (PHP 1*10^11)")
-    st.pyplot(fig)
-    st.write("Correlation coefficient: 0.85")
-
-    st.write("Provincial Income Level vs Mean Student-Teacher Ratio")
-    fig = plt.figure(figsize=(8, 6))
-
-    plt.scatter(prov["Schools_Income"], prov["Student_Teacher_Ratio"])
-    # plt.title("Provincial Income Level vs Mean Student-Teacher Ratio", fontsize=14)
-    plt.ylabel("Student-Teacher Ratio")
-    plt.xlabel("Income Level (PHP 1*10^11)")
-    st.pyplot(fig)
-    st.write("Correlation coefficient: 0.42")
+    st.write("")
     
-    st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
-    fig = plt.figure(figsize=(10, 8))
+    col1, col2 = st.beta_columns(2)
+    with col1:
+        st.write("City income is positively correlated with total number of enrollees, teachers and classrooms.")
+        fig = plt.figure(figsize=(10, 8))
 
-    sns.set_theme(style="white")
-    mask = np.triu(np.ones_like(corr, dtype=bool))
-    # cmap = sns.light_palette("blue", as_cmap=True)
-    sns.heatmap(corr, mask=mask, cmap="twilight", center=1, annot=True)
-    st.pyplot(fig)
+        sns.set_theme(style="white")
+        mask = np.triu(np.ones_like(corr, dtype=bool))
+        # cmap = sns.light_palette("blue", as_cmap=True)
+        sns.heatmap(corr, mask=mask, cmap="twilight", center=1, annot=True)
+        st.pyplot(fig)
+    
+    with col2:
+        option = st.selectbox(
+        'City Income vs:',
+        ['Teacher Availability', 'Room Availability', 'Enrollment', 'Student-Teacher Ratio'])
+        
+        if option == "Teacher Availability":
+            fig = plt.figure(figsize=(8, 6))
+
+            plt.scatter(prov["Schools_Income"], prov["Schools_Teachers"])
+            plt.ylabel("Number of Teachers")
+            plt.xlabel("Income Level (PHP 1*10^11)")
+            st.pyplot(fig)
+            st.write("Correlation coefficient: 0.86")
+        
+        elif option == "Room Availability":
+            fig = plt.figure(figsize=(8, 6))
+
+            plt.scatter(prov["Schools_Income"], prov["Schools_Rooms"])
+            plt.ylabel("Number of Rooms Available")
+            plt.xlabel("Income Level (PHP 1*10^11)")
+            st.pyplot(fig)
+            st.write("Correlation coefficient: 0.88")
+            
+        elif option == "Enrollment":
+            fig = plt.figure(figsize=(8, 6))
+
+            plt.scatter(prov["Schools_Income"], prov["Schools_Enrollment"])
+            plt.ylabel("Enrolled Students")
+            plt.xlabel("Income Level (PHP 1*10^11)")
+            st.pyplot(fig)
+            st.write("Correlation coefficient: 0.85")
+            
+        elif option == "Student-Teacher Ratio":
+            fig = plt.figure(figsize=(8, 6))
+
+            plt.scatter(prov["Schools_Income"], prov["Student_Teacher_Ratio"])
+            # plt.title("Provincial Income Level vs Mean Student-Teacher Ratio", fontsize=14)
+            plt.ylabel("Student-Teacher Ratio")
+            plt.xlabel("Income Level (PHP 1*10^11)")
+            st.pyplot(fig)
+            st.write("Correlation coefficient: 0.42")
 
 
 def boncodin():
