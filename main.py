@@ -57,32 +57,16 @@ def background():
     
     col1, col2 = st.beta_columns([2, 1])
     with col1:
-        st.image(sdg4_image)
+        st.image(sdg4_image, caption='Source: Think Sustainability')
     with col2:
-        st.write("")
-        st.write("")
         st.markdown(
             "To investigate this, we asked three critical questions: "
         )
         st.markdown(
-            "- How are education resources distributed across the country?\n"
-            "- Are there any schools, regions, or areas with resource deficiencies?\n"
-            "- Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?"
+            "**1. How are education resources distributed across the country?**\n"
+            "**2. Are there any schools, regions, or areas with resource deficiencies?**\n"
+            "**3. Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?**"
         )
-    
-    st.image(sdg4_image, caption='Source: Think Sustainability')
-
-
-def point_of_investigation():
-    st.title('Points of Investigation')
-    st.markdown(
-        "In this *exploratory data analysis*, we aim to answer the following questions:"
-    )
-    st.markdown(
-        "- How are education resources distributed across the country?\n"
-        "- Are there any schools, regions, or areas with resource deficiencies?\n"
-        "- Are the perceived discrepancies justified for resource needs?"
-    )
 
 
 def what_is_mooe():
@@ -94,10 +78,14 @@ def what_is_mooe():
     mooe_computation = Image.open("mooe_computation.png")
     st.image(mooe_computation)
 
-def data_sources():
-    st.title('Data Sources')
+def data_method():
+    st.title('Data Sources and Methodology')
+    st.write("")
     data_sources = Image.open("data_sources.png")
     st.image(data_sources)
+    st.write("")
+    methodology = Image.open("methodology.png")
+    st.image(methodology)
 
 
 def methodology():
@@ -209,10 +197,8 @@ def conclusion():
 list_of_pages = [
     "The Project",
     "Background",
-    "Points of Investigation",
     "What is MOOE?",
-    "Data Sources",
-    "Methodology",
+    "Data Sources and Methodology",
     "City Income vs School Resources",
     "Gaps in School Resources",
     "Actual vs Boncodin MOOE",
@@ -235,11 +221,8 @@ elif selection == "Points of Investigation":
 elif selection == "What is MOOE?":
     what_is_mooe()
 
-elif selection == "Data Sources":
-    data_sources()
-
-elif selection == "Methodology":
-    methodology()
+elif selection == "Data Sources and Methodology":
+    data_method()
 
 elif selection == "City Income vs School Resources":
     city_income()
