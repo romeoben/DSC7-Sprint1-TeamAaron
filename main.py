@@ -202,7 +202,29 @@ def conclusion():
     st.write("Poverty incidence")
     st.write("Vulnerability to natural and human-induced hazards")
 
+def referenecs():
+    st.title('References:')
+    
+    st.subheader('[1] Building Better Learning Environments in the Philippines')
+    st.write("World Bank Group. (2016). Building Better Learning Environments in the Philippines. Philippines education note,no. 4;. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/24744 License: CC BY 3.0 IGO.")
+    
+    st.write("[2] House Bill No. 473: An Act Regulating Class Size in All Public Schools and Appointing Funds Therefor")
+    st.write("Tinio, A. L., & Castro, F. L. (2016, June 30). House Bill No. 473: An Act Regulating Class Size in All Public Schools and Appointing Funds Therefor. House Bill No. 473. https://www.congress.gov.ph/legisdocs/basic_17/HB00473.pdf.")
+    
+    st.subheader("[3] Class-size affects students' learning : DepEd. Philippine News Agency RSS")
+    st.write("Montemayor, M. T. (2018, March 19). Class-size affects students' learning : DepEd. Philippine News Agency RSS. https://www.pna.gov.ph/articles/1029281. ")
 
+    st.subheader('[4] DepEd EBEIS (2015)')
+    st.write("")    
+
+    st.subheader('[5] Comparing the DISADVANTAGE INDEX (DI) with GEOGRAPHICALLY ISOLATED AND DISADVANTAGED AREAS (GIDA)')
+    st.write("Comparing the DISADVANTAGE INDEX (DI) with GEOGRAPHICALLY ISOLATED AND DISADVANTAGED AREAS (GIDA). DepEd, 2015.")      
+    
+    st.subheader('[6] Computation of Public Schools MOOE')
+    st.write("Llego, M. A. (2015). Computation of Public Schools MOOE. https://www.teacherph.com/computation-public-schools-mooe/")  
+    
+    
+    
 list_of_pages = [
     "The Project",
     "Background",
