@@ -21,31 +21,26 @@ corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Tea
 def project():
     st.title('Analyzing Gaps in the Philippine Education System')
     st.subheader('Data Science Fellowship Cohort 7 - Group 5')
-    st.write("")
-    st.markdown(
-        "In this **exploratory data analysis**, we aim to uncover the distribution of public education resources "
-        "across the Philippines and identify critical deficiencies "
-        "through an assessment of Maintenance and Other Operating Expenses (MOOE) "
-        "allocation in the different regions."
-    )
-    st.write("")
 
     teacher_image = Image.open('teacher.jpg')
 
-    col1, col2 = st.beta_columns([10, 5])
+    col1, col2 = st.beta_columns([2, 1])
     with col1:
         st.image(
             teacher_image,
-            caption='Source: The Guardian'
+            caption='A teacher with her class of 59 students in a Quezon City public school. Source: The Guardian'
         )
     with col2:
         st.write("")
         st.write("")
+        st.markdown(
+            "In this **exploratory data analysis**, we aim to uncover the distribution of public education resources "
+            "across the Philippines and identify critical deficiencies "
+            "through an assessment of Maintenance and Other Operating Expenses (MOOE) "
+            "allocation in the different regions."
+        )
         st.write("")
         st.write("")
-        st.write("")
-        st.write("")
-        st.write('A teacher handles an overpopulated class of 59 students in this Quezon City public school.')
 
 
 def background():
@@ -55,10 +50,26 @@ def background():
         "and promote lifelong learning opportunities for all.*")
 
     st.write(
-        "In the context of the Philippines, is this properly translated to a **reality**?"
+        "In the context of the Philippines, has this goal been properly translated into **reality**?"
     )
 
     sdg4_image = Image.open('sdg4.jpg')
+    
+    col1, col2 = st.beta_columns([2, 1])
+    with col1:
+        st.image(sdg4_image)
+    with col2:
+        st.write("")
+        st.write("")
+        st.markdown(
+            "To investigate this, we asked three critical questions: "
+        )
+        st.markdown(
+            "- How are education resources distributed across the country?\n"
+            "- Are there any schools, regions, or areas with resource deficiencies?\n"
+            "- Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?"
+        )
+    
     st.image(sdg4_image, caption='Source: Think Sustainability')
 
 
