@@ -8,7 +8,7 @@ import seaborn as sns
 import streamlit as st
 from PIL import Image
 import cluster
-st.set_page_config(layout="wide")
+st.set_page_config(page_title='Analyzing Gaps in the Philippine Education System', layout="wide")
 warnings.filterwarnings('ignore')
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -24,7 +24,7 @@ def project():
 
     teacher_image = Image.open('teacher.jpg')
 
-    col1, col2 = st.beta_columns([2, 1])
+    col1, col2 = st.beta_columns(2)
     with col1:
         st.image(
             teacher_image,
@@ -55,13 +55,13 @@ def background():
     col1, col2 = st.beta_columns([1, 2])
     with col1:
         st.markdown(
-            "**1. How are education resources distributed across the country?**"
+            "1. **How are education resources distributed across the country?**"
         )
         st.markdown(    
-            "**2. Are there any schools, regions, or areas with resource deficiencies?**"
+            "2. **Are there any schools, regions, or areas with resource deficiencies?**"
         )
         st.markdown(    
-            "**3. Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?**"
+            "3. **Are the perceived discrepancies in allocation justified for resource needs of these schools/regions?**"
         )
     with col2:
         st.image(sdg4_image, caption='Source: Think Sustainability')
@@ -71,20 +71,24 @@ def background():
 def what_is_mooe():
     st.title('What is MOOE?')
     st.write("")
-    mooe_image = Image.open('what_is_mooe.png')
-    st.image(mooe_image)
-    st.write("")
-    mooe_computation = Image.open("mooe_computation.png")
-    st.image(mooe_computation)
+    col1, col2 = st.beta_columns(2)
+    with col1:
+        mooe_image = Image.open('what_is_mooe.png')
+        st.image(mooe_image)
+    with col2:
+        mooe_computation = Image.open("mooe_computation.png")
+        st.image(mooe_computation)
 
 def data_method():
     st.title('Data Sources and Methodology')
     st.write("")
-    data_sources = Image.open("data_sources.png")
-    st.image(data_sources)
-    st.write("")
-    methodology = Image.open("methodology.png")
-    st.image(methodology)
+    col1, col2 = st.beta_columns(2)
+    with col1:
+        data_sources = Image.open("data_sources.png")
+        st.image(data_sources)
+    with col2:
+        methodology = Image.open("methodology.png")
+        st.image(methodology)
 
 
 def methodology():
@@ -155,52 +159,60 @@ def city_income():
 
 def boncodin():
     st.title('Actual MOOE vs Boncodin MOOE')
-    col1, col2, col3 = st.beta_columns(3)
+    col1, col2 = st.beta_columns([1,2])
     with col1:
         st.subheader("At a Glance")
         st.image("mooe_diff.png", caption=None, width=None, use_column_width=None, clamp=False, channels='RGB',
                  output_format='auto')
         st.write("**Some schools receive less than the Boncodin MOOE, some more.**")
+        option = st.selectbox(
+        'Select Visualization:',
+        ['Bar chart', 'Heatmap'])
+        
     
     with col2:
-        st.subheader("Regional MOOE Differentials")
-        mpr = region["MOOE_Diff"].sort_values()
-        fig = plt.figure(figsize=(10, 6), dpi=200)
-        plt.barh(mpr.index, mpr.values)
-        # plt.title("Regional MOOE Differentials", fontsize = 16)
-        plt.xlabel("MOOE Differential", fontsize=12)
-        plt.xticks(range(0, 250000000, 25000000))
-        st.pyplot(fig)
+        st.subheader("MOOE Differentials by Region")
+        
+        if option == "Bar chart":
+        
+            mpr = region["MOOE_Diff"].sort_values()
+            fig = plt.figure(figsize=(10, 6), dpi=200)
+            plt.barh(mpr.index, mpr.values)
+            # plt.title("Regional MOOE Differentials", fontsize = 16)
+            plt.xlabel("MOOE Differential", fontsize=12)
+            plt.xticks(range(0, 250000000, 25000000))
+            st.pyplot(fig)
+        
+        elif option == "Heatmap":
+        
+            variable = 'MOOE_Diff'
+
+            vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
+            fig, ax = plt.subplots(1, figsize=(8, 6), dpi=200)
+            merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
+            sm = plt.cm.ScalarMappable(cmap='PuBu', norm=plt.Normalize(vmin=vmin, vmax=vmax))
+            cbar = fig.colorbar(sm)
+            st.pyplot()
+        st.write("")
         st.write("NCR, Region 3, 4-A, 6, 5, 7 have **higher** MOOE differentials.")
         st.write("CAR, CARAGA, Region 4-B, 9, 2 have **lower** MOOE differentials.")
-    
-    with col3:
-        variable = 'MOOE_Diff'
-
-        vmin, vmax = merged_data['MOOE_Diff'].min(), merged_data['MOOE_Diff'].max()
-        fig, ax = plt.subplots(1, figsize=(15, 10))
-        merged_data.plot(column=variable, cmap='PuBu', linewidth=0.8, ax=ax, edgecolor='0.8', vmin=vmin, vmax=vmax)
-        sm = plt.cm.ScalarMappable(cmap='PuBu', norm=plt.Normalize(vmin=vmin, vmax=vmax))
-        cbar = fig.colorbar(sm)
-        st.pyplot()
-
 
 def conclusion():
     st.title('Conclusion and Recommendations')
-    st.subheader("What did we learn?")
-    st.write("How are education resources distributed across the country?")
-    st.write("MOOE allocation generally favors schools in higher-income cities, highlighting inequitable distribution.")
-    st.write("Are there any schools, regions, or areas with resource deficiencies?")
-    st.write("897 schools received less than the Boncodin MOOE.")
-    st.write("Some regions require more rooms and teachers per student.")
-    st.write("Are the perceived discrepancies justified for resource needs?")
-    st.write("Not necessarily. Some regions have lower differentials but require more resources (CAR, Region 2).")
-    st.subheader("What can we do?")
+    st.write("## What did we learn?")
+    st.write("### How are education resources distributed across the country?")
+    st.write("- MOOE allocation generally favors schools in higher-income cities, highlighting inequitable distribution.")
+    st.write("### Are there any schools, regions, or areas with resource deficiencies?")
+    st.write("- 897 schools received less than the Boncodin MOOE.")
+    st.write("- Some regions require more rooms and teachers per student.")
+    st.write("### Are the perceived discrepancies justified for resource needs?")
+    st.write("- Not necessarily. Some regions have lower MOOE differentials but require more resources (CAR, Region 2).")
+    st.write("## What can we do?")
     st.write(
-        "We recommend a reevaluation of the Boncodin Formula, to incorporate certain factors important to the context, such as:")
-    st.write("Travel time and cost from school to Division Office)")
-    st.write("Poverty incidence")
-    st.write("Vulnerability to natural and human-induced hazards")
+        "### We recommend a reevaluation of the Boncodin Formula, to incorporate certain factors important to the context, such as:")
+    st.write("- Travel time and cost from school to Division Office)")
+    st.write("- Poverty incidence")
+    st.write("- Vulnerability to natural and human-induced hazards")
 
 
 list_of_pages = [

@@ -17,41 +17,49 @@ rooms_schools4 = pd.read_csv("Nilly_data.csv")
 def gaps():
     st.title('Across the country, can we identify regions with deficiencies in educational resources?')
     
-    option = st.sidebar.selectbox(
-        'Select a Resource:',
-        ['Room Utilization', 'Student-Teacher Ratio'])
+    col1, col2 = st.beta_columns([5,11])
+    with col1:
+        option = st.selectbox(
+            'Select a Resource:',
+            ['Room Utilization', 'Student-Teacher Ratio'])
+        if option == "Room Utilization":
         
-    if option == "Room Utilization":
+            st.write("According to the World Bank,less students per classroom is associated with better student performance.")
+            st.write("Additionally, House Bill 473 states that the **standard class size is 35**.")
+        
+        elif option == "Student-Teacher Ratio":
+            st.write("In 2018, DepEd set parameters the following parameters for Student-Teacher ratios: for Grades 1-2, it is 1:30, Grade 3-4, 1:35, and Grades 5-10, 1:40. This brings us to an average of **1:35** - which is the ideal.")
+        
+    with col2:
+        if option == "Room Utilization":
+        
+            st.subheader("Regional Room Utilization")
+            region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
+            region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
+            region_rooms_ratio = region_rooms_ratio.sort_values()
+            fig = plt.figure(figsize=(10,6)) 
+            plt.barh(region_rooms_ratio.index, region_rooms_ratio.values,height=0.8,left=0,align='edge') 
+            plt.axvline(x=35, c="orange",ls="--")
+            #plt.title("Regional Room Utilization.", fontsize=16)
+            plt.xlabel("Students per room", fontsize=12)
+            st.pyplot(fig)
     
-        st.subheader("Regional Room Utilization")
-        region_rooms_ratio = rooms_schools4.groupby("school.region")['rooms_students'].mean()
-        region_rooms_ratio = region_rooms_ratio.replace([np.inf, -np.inf], np.nan)
-        region_rooms_ratio = region_rooms_ratio.sort_values()
-        fig = plt.figure(figsize=(10,6)) 
-        plt.barh(region_rooms_ratio.index, region_rooms_ratio.values,height=0.8,left=0,align='edge') 
-        plt.axvline(x=35, c="orange",ls="--")
-        #plt.title("Regional Room Utilization.", fontsize=16)
-        plt.xlabel("Students per room", fontsize=12)
-        st.pyplot(fig)
-        st.write("According to the World Bank, less students per classroom is associated with better student performance.")
-        st.write("Additionally, House Bill 473 states that the **standard class size is 35**.")
-    
-    elif option == "Student-Teacher Ratio":      
-        st.subheader("Regional Student-Teacher Ratio")
-        region_teacher_student_ratio = rooms_schools4.groupby("school.region")['student_teacher'].mean()
-        region_teacher_student_ratio = region_teacher_student_ratio.sort_values()
-        fig = plt.figure(figsize=(10,6)) 
-        plt.barh(region_teacher_student_ratio.index, region_teacher_student_ratio.values,height=0.8,left=0,align='edge')
-        plt.axvline(x=35, c="orange",ls="--")
-        #plt.title("Region: Student Teacher ratio", fontsize=16)
-        plt.xlabel("Students per teacher", fontsize=12)
-        st.pyplot(fig)
-        st.write("In 2018, DepEd set parameters the following parameters for Student-Teacher ratios: for Grades 1-2, it is 1:30, Grade 3-4, 1:35, and Grades 5-10, 1:40. This brings us to an average of **1:35** - which is the ideal.")
+        elif option == "Student-Teacher Ratio":      
+            st.subheader("Regional Student-Teacher Ratio")
+            region_teacher_student_ratio = rooms_schools4.groupby("school.region")['student_teacher'].mean()
+            region_teacher_student_ratio = region_teacher_student_ratio.sort_values()
+            fig = plt.figure(figsize=(10,6)) 
+            plt.barh(region_teacher_student_ratio.index, region_teacher_student_ratio.values,height=0.8,left=0,align='edge')
+            plt.axvline(x=35, c="orange",ls="--")
+            #plt.title("Region: Student Teacher ratio", fontsize=16)
+            plt.xlabel("Students per teacher", fontsize=12)
+            st.pyplot(fig)
+        
     
    
 def clustering():
-    st.title('WITH GREATER RESOURCE NEED…')
-    st.subheader('COMES COMES GREATER MOOE DIFFERENTIAL?')
+    st.title('With greater resource need…')
+    st.subheader('...comes greater MOOE differential?')
     st.write("Justifying resource allocation per region using K-Means Clustering")
     
     region_urban_rooms_ratio = rooms_schools4.groupby(["school.urban", "school.region"])["rooms_students"].mean()
@@ -79,7 +87,6 @@ def clustering():
     #quartile is 0.25 and quantile is 0.05
     
     region_schools_final.dropna(inplace=True)
-    
 
     #takes out discrepancies
     scaler = StandardScaler()
@@ -165,16 +172,19 @@ def clustering():
     col1, col2, col3 = st.beta_columns(3)
     with col1:
         st.subheader('SEGMENT 0')
-        st.write("low room utilization (0)")
-        st.write("low student teacher ratio (0)")
-        st.write("low MOOE diff (-0.25)")
+        st.write("**CAR, Regions 1, 2, 6, 8**")
+        st.write("- Low room utilization (0)")
+        st.write("- Low student-teacher ratio (0)")
+        st.write("- Low MOOE differential (-0.25)")
     with col2:
         st.subheader('SEGMENT 1')
-        st.write("high room utilization (0.75)")
-        st.write("medium student teacher ratio (0.25)")
-        st.write("high MOOE diff (0.75)")
+        st.write("**NCR**")
+        st.write("- High room utilization (0.75)")
+        st.write("- Medium student-teacher ratio (0.25)")
+        st.write("- High MOOE differential (0.75)")
     with col3:
         st.subheader('SEGMENT 2')
-        st.write("low room utilization (0.25)")
-        st.write("high student teacher ratio (0.5)")
-        st.write("low MOOE diff (-0.25)")    
+        st.write("**CARAGA, Regions 3, 4A, 4B, 9, 5, 7**")
+        st.write("- Low room utilization (0.25)")
+        st.write("- High student-teacher ratio (0.5)")
+        st.write("- Low MOOE differential (-0.25)")    
