@@ -20,7 +20,8 @@ corr = prov[['Schools_Income', 'Schools_Teachers', 'Schools_Rooms', 'Student_Tea
 
 def project():
     st.title('Analyzing Gaps in the Philippine Education System')
-    st.subheader('Data Science Fellowship Cohort 7 - Group 5')
+    st.subheader('by Data Science Fellowship Cohort 7 - Group 5')
+    st.write('Adam, Adrian, Ben, Nilly (mentored by Aaron)')
 
     teacher_image = Image.open('teacher.jpg')
 
@@ -209,24 +210,24 @@ def conclusion():
     st.write("- Not necessarily. Some regions have lower MOOE differentials but require more resources (CAR, Region 2).")
     st.write("## What can we do?")
     st.write(
-        "### We recommend a reevaluation of the Boncodin Formula, to incorporate certain factors important to the context, such as:")
+        "### We recommend a reevaluation of the Boncodin Formula, to incorporate certain factors important to the specific contexts of schools, such as:")
     st.write("- Travel time and cost from school to Division Office)")
     st.write("- Poverty incidence")
     st.write("- Vulnerability to natural and human-induced hazards")
 
-def referenecs():
-    st.title('References:')
+def references():
+    st.title('References')
     
     st.subheader('[1] Building Better Learning Environments in the Philippines')
     st.write("World Bank Group. (2016). Building Better Learning Environments in the Philippines. Philippines education note,no. 4;. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/24744 License: CC BY 3.0 IGO.")
     
-    st.write("[2] House Bill No. 473: An Act Regulating Class Size in All Public Schools and Appointing Funds Therefor")
+    st.subheader("[2] House Bill No. 473: An Act Regulating Class Size in All Public Schools and Appointing Funds Therefor")
     st.write("Tinio, A. L., & Castro, F. L. (2016, June 30). House Bill No. 473: An Act Regulating Class Size in All Public Schools and Appointing Funds Therefor. House Bill No. 473. https://www.congress.gov.ph/legisdocs/basic_17/HB00473.pdf.")
     
     st.subheader("[3] Class-size affects students' learning : DepEd. Philippine News Agency RSS")
     st.write("Montemayor, M. T. (2018, March 19). Class-size affects students' learning : DepEd. Philippine News Agency RSS. https://www.pna.gov.ph/articles/1029281. ")
 
-    st.subheader('[4] DepEd EBEIS (2015)')
+    st.subheader('[4] Enhanced Basic Education Information System (EBEIS) (2015)')
     st.write("")    
 
     st.subheader('[5] Comparing the DISADVANTAGE INDEX (DI) with GEOGRAPHICALLY ISOLATED AND DISADVANTAGED AREAS (GIDA)')
@@ -247,6 +248,7 @@ list_of_pages = [
     "Actual vs Boncodin MOOE",
     "Clustering",
     "Conclusion and Recommendations",
+    "References"
 ]
 
 st.sidebar.title('Table of Contents')
@@ -257,9 +259,6 @@ if selection == "The Project":
 
 elif selection == "Background":
     background()
-
-elif selection == "Points of Investigation":
-    point_of_investigation()
 
 elif selection == "What is MOOE?":
     what_is_mooe()
@@ -281,3 +280,6 @@ elif selection == "Clustering":
 
 elif selection == "Conclusion and Recommendations":
     conclusion()
+    
+elif selection == "References":
+    references()
